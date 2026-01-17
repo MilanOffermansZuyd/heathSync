@@ -3,7 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthSync.Views.DashboardPage"
              Title="Dashboard">
-    <VerticalStackLayout Padding="20" Spacing="12">
-        <Label Text="{Binding IngelogdeUser.VolledigeNaam, StringFormat='Welkom {0}'}" FontSize="18" />
-    </VerticalStackLayout>
+    
+    <Grid Padding="20"
+          RowDefinitions="*,Auto"
+          RowSpacing="12">
+
+        <!-- Alles wat mag scrollen -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="12">
+
+                <Label Text="Dashboard" FontSize="22" />
+                <Label Text="{Binding IngelogdeUser.VolledigeNaam, StringFormat='Welkom {0}'}"
+                       FontSize="18" />
+
+                <!-- Hier komen later je dashboard cards: medicatie vandaag, stats, etc. -->
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Vaste knop onderaan (placeholder) -->
+        <Button Grid.Row="1" x:Name="Noodhulp" Text="Noodhulp" />
+
+    </Grid>
 </ContentPage>

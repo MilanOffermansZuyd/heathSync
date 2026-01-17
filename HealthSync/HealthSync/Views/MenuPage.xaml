@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthSync.Views.MenuPage"
+             Title="Menu">
+
+    <Grid Padding="20"
+          RowDefinitions="*,Auto"
+          RowSpacing="12">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="12">
+
+                <Label Text="Menu" FontSize="22" />
+                <Label Text="{Binding IngelogdeUser.VolledigeNaam}" FontSize="18" />
+                <Label Text="{Binding IngelogdeUser.Email}" FontSize="14" />
+                <Label Text="{Binding IngelogdeUser.Role}" FontSize="14" />
+
+                <!-- Hier komen later je menu items/knoppen -->
+                <!-- Bijvoorbeeld: Kennisclips, Stress, Afspraken, Profiel, Instellingen, Noodhulp -->
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button Grid.Row="1" x:Name="Uitloggen" Text="Uitloggen" Clicked="Uitloggen_Clicked" BackgroundColor="#D32F2F" TextColor="White" />
+
+    </Grid>
+</ContentPage>
