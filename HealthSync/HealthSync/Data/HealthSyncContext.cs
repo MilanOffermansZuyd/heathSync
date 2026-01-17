@@ -18,7 +18,7 @@ namespace HealthSync.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Naam = "Hans" }
+                new User { Id = 1, Voornaam="Hans", Achternaam="Worst", Email="123", Wachtwoord="123"}
                 );
         }
     }
