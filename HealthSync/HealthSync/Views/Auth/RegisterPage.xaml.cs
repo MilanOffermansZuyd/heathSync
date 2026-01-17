@@ -47,17 +47,23 @@ public partial class RegisterPage : ContentPage
             return;
         }
 
+        voornaam = voornaam.Trim();
+
         if (string.IsNullOrWhiteSpace(achternaam))
         {
             await DisplayAlert("Fout", "Vul een achternaam in", "OK");
             return;
         }
 
+        achternaam = achternaam.Trim();
+
         if (string.IsNullOrWhiteSpace(email))
         {
             await DisplayAlert("Fout", "Vul een emailadres in", "OK");
             return;
         }
+
+        email = email.Trim().ToLower();
 
         if (!email.Contains("@"))
         {
@@ -89,10 +95,8 @@ public partial class RegisterPage : ContentPage
             return;
         }
 
-        email = email.Trim().ToLower();
-
-        bool bestaat = await Database.EmailBestaatAsync(email);
-        if (bestaat)
+        bool emailBestaat = await Database.EmailBestaatAsync(email);
+        if (emailBestaat)
         {
             await DisplayAlert("Fout", "Dit emailadres bestaat al.", "OK");
             return;
@@ -100,8 +104,8 @@ public partial class RegisterPage : ContentPage
 
         User nieuweUser = new User
         {
-            Voornaam = voornaam.Trim(),
-            Achternaam = achternaam.Trim(),
+            Voornaam = voornaam,
+            Achternaam = achternaam,
             Email = email,
             Wachtwoord = wachtwoord,
             Role = GekozenRol.Value

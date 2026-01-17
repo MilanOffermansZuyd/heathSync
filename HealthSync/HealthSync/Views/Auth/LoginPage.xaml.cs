@@ -19,6 +19,9 @@ public partial class LoginPage : ContentPage
     {
         base.OnAppearing();
 
+        EntEmail.Text = "";
+        EntWachtwoord.Text = "";
+
         Login.IsEnabled = true;
         Registreren.IsEnabled = true;
 
@@ -38,12 +41,44 @@ public partial class LoginPage : ContentPage
 
     private async void Login_Clicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Login", "Nog niet geimplementeerd, verwijst nu alleen door", "OK");
+        string email = EntEmail.Text;
+        string wachtwoord = EntWachtwoord.Text;
 
-        await Navigation.PushAsync(new MainTabbedPage
-            (new DashboardPage(Database),
-            new LifestylePage(Database), 
-            new MedicatiePage(Database)));
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            await DisplayAlert("Fout", "Vul een emailadres in", "OK");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(wachtwoord))
+        {
+            await DisplayAlert("Fout", "Vul een wachtwoord in", "OK");
+            return;
+        }
+
+        email = email.Trim().ToLower();
+
+        var user = await Database.GetUserByEmailAsync(email);
+
+        if (user == null)
+        {
+            await DisplayAlert("Onbekend account", "Dit emailadres is niet geregistreerd.", "OK");
+            return;
+        }
+
+        if (user.Wachtwoord != wachtwoord)
+        {
+            await DisplayAlert("Fout wachtwoord", "Het wachtwoord klopt niet.", "OK");
+            return;
+        }
+
+        await Navigation.PushAsync(new MainTabbedPage(
+            new DashboardPage(Database, user),
+            new LifestylePage(Database),
+            new MedicatiePage(Database)
+        ));
+
+        Navigation.RemovePage(this);
     }
 
     private async void Registreren_Clicked(object sender, EventArgs e)
