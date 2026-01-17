@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthSync.Views.ProfilePage"
+             Title="Profiel &amp; instellingen">
+    
+    <Grid Padding="20"
+          RowDefinitions="*,Auto,Auto"
+          RowSpacing="12">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="12">
+
+                <Entry x:Name="EntVoornaam" Placeholder="Voornaam" />
+                <Entry x:Name="EntAchternaam" Placeholder="Achternaam" />
+                <Entry x:Name="EntEmail" Placeholder="Email" Keyboard="Email" />
+                <Picker x:Name="PkrRole" Title="Kies een rol:" ItemsSource="{Binding Roles}" SelectedItem="{Binding GekozenRol}" />
+                <Entry x:Name="EntWachtwoord" Placeholder="Nieuw wachtwoord" IsPassword="True" />
+                <Entry x:Name="EntHerhaalWachtwoord" Placeholder="Herhaal nieuw wachtwoord" IsPassword="True" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button Grid.Row="1" x:Name="Opslaan" Text="Opslaan" Clicked="Opslaan_Clicked" />
+
+        <Button Grid.Row="2" x:Name="Verwijderen" Text="Account verwijderen" BackgroundColor="#D32F2F" TextColor="White" Clicked="Verwijderen_Clicked" />
+
+    </Grid>
+</ContentPage>

@@ -38,7 +38,7 @@ namespace HealthSync
             // KAN WSS WEG
             //builder.Services.AddTransient<RegisterPage>();
             //builder.Services.AddTransient<DashboardPage>();
-            //builder.Services.AddTransient<MedicatiePage>();
+            //builder.Services.AddTransient<MedicationPage>();
             //builder.Services.AddTransient<LifestylePage>();
 
             //builder.Services.AddTransient<MainTabbedPage>();

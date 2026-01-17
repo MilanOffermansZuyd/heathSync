@@ -12,8 +12,7 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="12">
 
-                <Label Text="Dashboard" FontSize="22" />
-                <Label Text="{Binding IngelogdeUser.VolledigeNaam, StringFormat='Welkom {0}'}"
+                <Label Text="{Binding IngelogdeUser.VolledigeNaam, StringFormat='Welkom {0} op het Dashboard'}"
                        FontSize="18" />
 
                 <!-- Hier komen later je dashboard cards: medicatie vandaag, stats, etc. -->
@@ -22,7 +21,7 @@
         </ScrollView>
 
         <!-- Vaste knop onderaan (placeholder) -->
-        <Button Grid.Row="1" x:Name="Noodhulp" Text="Noodhulp" />
+        <Button Grid.Row="1" x:Name="Noodhulp" Text="Noodhulp" Clicked="Noodhulp_Clicked" BackgroundColor="#F59E0B" TextColor="White"/>
 
     </Grid>
 </ContentPage>
