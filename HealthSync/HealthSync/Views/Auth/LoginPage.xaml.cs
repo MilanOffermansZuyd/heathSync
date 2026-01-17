@@ -74,8 +74,9 @@ public partial class LoginPage : ContentPage
 
         await Navigation.PushAsync(new MainTabbedPage(
             new DashboardPage(Database, user),
-            new LifestylePage(Database),
-            new MedicatiePage(Database)
+            new LifestylePage(Database, user),
+            new MedicatiePage(Database, user),
+            new MenuPage(Database, user)
         ));
 
         Navigation.RemovePage(this);
