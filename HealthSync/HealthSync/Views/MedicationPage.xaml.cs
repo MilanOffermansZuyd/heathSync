@@ -3,11 +3,11 @@ using HealthSync.Models;
 
 namespace HealthSync.Views;
 
-public partial class MedicatiePage : ContentPage
+public partial class MedicationPage : ContentPage
 {
 	private DatabaseOperaties Database;
     public User IngelogdeUser { get; set; }
-    public MedicatiePage(DatabaseOperaties database, User ingelogdeUser)
+    public MedicationPage(DatabaseOperaties database, User ingelogdeUser)
 	{
 		InitializeComponent();
 		Database = database;

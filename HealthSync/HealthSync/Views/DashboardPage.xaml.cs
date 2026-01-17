@@ -15,4 +15,16 @@ public partial class DashboardPage : ContentPage
         IngelogdeUser = ingelogdeUser;
         BindingContext = this;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        BindingContext = null;
+        BindingContext = this;
+    }
+
+    private async void Noodhulp_Clicked(object sender, EventArgs e)
+    {
+        await DisplayAlert("Noodhulp", "Nog niet geïmplementeerd", "OK");
+    }
 }

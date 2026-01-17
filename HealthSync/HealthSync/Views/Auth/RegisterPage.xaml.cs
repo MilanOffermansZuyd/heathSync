@@ -32,7 +32,6 @@ public partial class RegisterPage : ContentPage
         }
     }
 
-
     private async void AccountAanmaken_Clicked(object sender, EventArgs e)
     {
         string voornaam = EntVoornaam.Text;
@@ -83,6 +82,12 @@ public partial class RegisterPage : ContentPage
             return;
         }
 
+        if (wachtwoord.Length < 6)
+        {
+            await DisplayAlert("Fout", "Wachtwoord moet minimaal 6 tekens zijn.", "OK");
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(herhaalWachtwoord))
         {
             await DisplayAlert("Fout", "Vul ter controle het wachtwoord opnieuw in", "OK");
@@ -102,7 +107,7 @@ public partial class RegisterPage : ContentPage
             return;
         }
 
-        User nieuweUser = new User
+        User user = new User
         {
             Voornaam = voornaam,
             Achternaam = achternaam,
@@ -111,7 +116,7 @@ public partial class RegisterPage : ContentPage
             Role = GekozenRol.Value
         };
 
-        await Database.AddUserAsync(nieuweUser);
+        await Database.AddUserAsync(user);
 
         await DisplayAlert("Gelukt", "Account is aangemaakt!", "OK");
 

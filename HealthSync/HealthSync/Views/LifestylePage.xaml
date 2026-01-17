@@ -12,10 +12,8 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="12">
 
-                <Label Text="Lifestyle" FontSize="22" />
-
                 <!-- Tijdelijk: test binding -->
-                <Label Text="{Binding IngelogdeUser.Email, StringFormat='Ingelogd als: {0}'}"
+                <Label Text="{Binding IngelogdeUser.Email, StringFormat='Ingelogd als: {0} (Lifestyle)'}"
                        FontSize="18" />
 
                 <!-- Hier komen later lifestyle logs / stats / knoppen -->

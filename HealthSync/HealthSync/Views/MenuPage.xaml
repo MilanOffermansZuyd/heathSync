@@ -11,16 +11,91 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="12">
 
-                <Label Text="Menu" FontSize="22" />
-                <Label Text="{Binding IngelogdeUser.VolledigeNaam}" FontSize="18" />
-                <Label Text="{Binding IngelogdeUser.Email}" FontSize="14" />
-                <Label Text="{Binding IngelogdeUser.Role}" FontSize="14" />
+                <!-- Menu items -->
+                <!-- Kennisclips -->
+                <Border Stroke="#CCCCCC" StrokeThickness="1" Padding="14">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer x:Name="Kennisclips" Tapped="Kennisclips_Tapped"/>
+                    </Border.GestureRecognizers>
+                    
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Kennisclips" FontSize="16" />
+                        <Label Grid.Column="1" Text=">" FontSize="16" />
+                    </Grid>
+                </Border>
 
-                <!-- Hier komen later je menu items/knoppen -->
-                <!-- Bijvoorbeeld: Kennisclips, Stress, Afspraken, Profiel, Instellingen, Noodhulp -->
+                <!-- Stress & Meditatie -->
+                <Border Stroke="#CCCCCC" StrokeThickness="1" Padding="14">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer x:Name="StresMeditatie" Tapped="StresMeditatie_Tapped"/>
+                    </Border.GestureRecognizers>
+                    
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Stress &amp; Meditatie" FontSize="16" />
+                        <Label Grid.Column="1" Text=">" FontSize="16" />
+                    </Grid>
+                </Border>
+
+
+                <!-- Afspraken -->
+                <Border Stroke="#CCCCCC" StrokeThickness="1" Padding="14">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer x:Name="Afspraken" Tapped="Afspraken_Tapped"/>
+                    </Border.GestureRecognizers>
+                    
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Afspraken" FontSize="16" />
+                        <Label Grid.Column="1" Text=">" FontSize="16" />
+                    </Grid>
+                </Border>
+
+                <!-- Profiel & instellingen -->
+                <Border Stroke="#CCCCCC" StrokeThickness="1" Padding="14">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer x:Name="ProfielInstellingen" Tapped="ProfielInstellingen_Tapped"/>
+                    </Border.GestureRecognizers>
+                    
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Profiel &amp; instellingen" FontSize="16" />
+                        <Label Grid.Column="1" Text=">" FontSize="16" />
+                    </Grid>
+                </Border>
+
+                <!-- Noodhulp -->
+                <Border Stroke="#CCCCCC" StrokeThickness="1" Padding="14">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer x:Name="Noodhulp" Tapped="Noodhulp_Tapped"/>
+                    </Border.GestureRecognizers>
+                    
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Noodhulp" FontSize="16" />
+                        <Label Grid.Column="1" Text=">" FontSize="16" />
+                    </Grid>
+                </Border>
 
             </VerticalStackLayout>
         </ScrollView>
+
 
         <Button Grid.Row="1" x:Name="Uitloggen" Text="Uitloggen" Clicked="Uitloggen_Clicked" BackgroundColor="#D32F2F" TextColor="White" />
 

@@ -75,7 +75,7 @@ public partial class LoginPage : ContentPage
         await Navigation.PushAsync(new MainTabbedPage(
             new DashboardPage(Database, user),
             new LifestylePage(Database, user),
-            new MedicatiePage(Database, user),
+            new MedicationPage(Database, user),
             new MenuPage(Database, user)
         ));
 

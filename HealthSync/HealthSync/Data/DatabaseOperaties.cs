@@ -34,6 +34,19 @@ namespace HealthSync.Data
             await Database.SaveChangesAsync();
         }
 
+        public async Task UpdateUserAsync(User user)
+        {
+            Database.Users.Update(user);
+            await Database.SaveChangesAsync();
+        }
+
+        public async Task DeleteUserAsync(User user)
+        {
+            Database.Users.Remove(user);
+            await Database.SaveChangesAsync();
+        }
+
+
         // Registratie - Email Check
         public async Task<bool> EmailBestaatAsync(string email)
         {
