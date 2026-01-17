@@ -1,4 +1,6 @@
-﻿namespace HealthSync.Models
+﻿using HealthSync.Models.Enums;
+
+namespace HealthSync.Models
 {
     public class User
     {
@@ -7,6 +9,7 @@
         public string Achternaam { get; set; }
         public string Email { get; set; }
         public string Wachtwoord { get; set; }
+        public UserRole Role { get; set; }
 
     }
 }

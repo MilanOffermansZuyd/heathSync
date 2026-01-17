@@ -4,10 +4,10 @@ namespace HealthSync
 {
     public partial class App : Application
     {
-        public App(MainTabbedPage mainTabbedPage)
+        public App(LoginPage loginPage)
         {
             InitializeComponent();
-            MainPage = mainTabbedPage;
+            MainPage = new NavigationPage(loginPage);
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

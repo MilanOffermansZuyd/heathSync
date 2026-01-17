@@ -1,6 +1,7 @@
 ﻿using HealthSync.Data;
 using HealthSync.Services;
 using HealthSync.Views;
+using HealthSync.Views.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -32,11 +33,15 @@ namespace HealthSync
 
             builder.Services.AddSingleton<DatabaseOperaties>();
 
-            builder.Services.AddTransient<DashboardPage>();
-            builder.Services.AddTransient<MedicatiePage>();
-            builder.Services.AddTransient<LifestylePage>();
+            builder.Services.AddTransient<LoginPage>();
 
-            builder.Services.AddTransient<MainTabbedPage>();
+            // KAN WSS WEG
+            //builder.Services.AddTransient<RegisterPage>();
+            //builder.Services.AddTransient<DashboardPage>();
+            //builder.Services.AddTransient<MedicatiePage>();
+            //builder.Services.AddTransient<LifestylePage>();
+
+            //builder.Services.AddTransient<MainTabbedPage>();
 
             return builder.Build();
         }

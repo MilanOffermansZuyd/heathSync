@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthSync.Views.Auth.RegisterPage"
+             Title="Registreren">
+    
+    <Grid Padding="20"
+          RowDefinitions="*,Auto"
+          RowSpacing="12">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="12">
+
+                <Entry x:Name="EntVoornaam" Placeholder="Voornaam" />
+                <Entry x:Name="EntAchternaam" Placeholder="Achternaam" />
+                <Entry x:Name="EntEmail" Placeholder="Email" Keyboard="Email" />
+                <Picker x:Name="PkrRole" Title="Kies een rol:" ItemsSource="{Binding Roles}" SelectedItem="{Binding GekozenRol}" />
+                <Entry x:Name="EntWachtwoord" Placeholder="Wachtwoord" IsPassword="True" />
+                <Entry x:Name="EntHerhaalWachtwoord" Placeholder="Herhaal wachtwoord" IsPassword="True" />
+
+                <Button x:Name="AccountAanmaken" Text="Account aanmaken" Clicked="AccountAanmaken_Clicked" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button Grid.Row="1" Text="Annuleren" Clicked="TerugNaarLogin_Clicked" />
+
+    </Grid>
+</ContentPage>
