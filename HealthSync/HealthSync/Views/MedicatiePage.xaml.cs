@@ -1,9 +1,13 @@
+using HealthSync.Data;
+
 namespace HealthSync.Views;
 
 public partial class MedicatiePage : ContentPage
 {
-	public MedicatiePage()
+	private DatabaseOperaties Database;
+    public MedicatiePage(DatabaseOperaties database)
 	{
 		InitializeComponent();
-	}
+		Database = database;
+    }
 }
