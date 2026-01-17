@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using HealthSync.Data;
+using HealthSync.Services;
+using HealthSync.Views;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HealthSync
 {
@@ -7,6 +11,13 @@ namespace HealthSync
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
+            string SQLiteDbPath = Constanten.GetDatabaseFilePath();
+            builder.Services.AddDbContext<HealthSyncContext>(
+                opt => opt.UseSqlite($"Data Source={SQLiteDbPath}")
+            );
+
+
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -18,6 +29,14 @@ namespace HealthSync
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<DatabaseOperaties>();
+
+            builder.Services.AddTransient<DashboardPage>();
+            builder.Services.AddTransient<MedicatiePage>();
+            builder.Services.AddTransient<LifestylePage>();
+
+            builder.Services.AddTransient<MainTabbedPage>();
 
             return builder.Build();
         }
