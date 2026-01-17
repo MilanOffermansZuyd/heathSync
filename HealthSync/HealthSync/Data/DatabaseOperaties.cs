@@ -20,21 +20,24 @@ namespace HealthSync.Data
         // User
         public async Task<List<User>> GetUsersAsync()
         {
-            return await Database.Gebruikers.ToListAsync();
+            return await Database.Users.ToListAsync();
+        }
+
+        public async Task<User?> GetUserByEmailAsync(string email)
+        {
+            return await Database.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task AddUserAsync(User user)
         {
-            Database.Gebruikers.Add(user);
+            Database.Users.Add(user);
             await Database.SaveChangesAsync();
         }
 
         // Registratie - Email Check
         public async Task<bool> EmailBestaatAsync(string email)
         {
-            return await Database.Gebruikers.AnyAsync(u => u.Email == email);
+            return await Database.Users.AnyAsync(u => u.Email == email);
         }
-
-
     }
 }

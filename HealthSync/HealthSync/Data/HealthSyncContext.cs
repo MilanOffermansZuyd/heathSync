@@ -5,7 +5,7 @@ namespace HealthSync.Data
 {
     public class HealthSyncContext : DbContext
     {
-        public DbSet<User> Gebruikers { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public HealthSyncContext(DbContextOptions<HealthSyncContext> option) : base(option)
         {
@@ -18,7 +18,10 @@ namespace HealthSync.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Voornaam="Hans", Achternaam="Worst", Email="123", Wachtwoord="123"}
+                new User { Id = 1, Voornaam="Admin", Achternaam="istrator", Email="admin@a", Wachtwoord="admin"},
+                new User { Id = 2, Voornaam = "Frits", Achternaam = "Spits", Email = "f.spits@spits.nl", Wachtwoord = "fspits" },
+                new User { Id = 3, Voornaam = "Miep", Achternaam = "Bliep", Email = "m.bliep@bliep.nl", Wachtwoord = "mbliep" },
+                new User { Id = 4, Voornaam = "Ronald", Achternaam = "Wemel", Email = "r.wemel@wemel.nl", Wachtwoord = "rwemel" }
                 );
         }
     }
