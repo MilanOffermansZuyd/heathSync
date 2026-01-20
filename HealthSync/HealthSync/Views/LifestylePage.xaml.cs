@@ -33,7 +33,7 @@ public partial class LifestylePage : ContentPage
         // Hardcoded totdat smartwatch of stappen teller is toegevoegd
         try
         {
-            SetSteps(50);
+            SetSteps(250);
         }
         catch { }
 
@@ -81,7 +81,7 @@ public partial class LifestylePage : ContentPage
         {
             new SleepSegment("Awake", 10),
             new SleepSegment("Light", 60),
-            new SleepSegment("REM", 20),
+            new SleepSegment("REM", 60),
             new SleepSegment("Light", 120),
             new SleepSegment("Deep", 40),
             new SleepSegment("REM", 30),
