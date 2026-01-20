@@ -16,6 +16,58 @@
                 <Label Text="{Binding IngelogdeUser.Email, StringFormat='Ingelogd als: {0} (Lifestyle)'}"
                        FontSize="18" />
 
+                <!-- Steps metric -->
+                <Frame Padding="12" BackgroundColor="#000080" CornerRadius="8">
+                    <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Start">
+                        <Label Text="Steps" FontSize="16" VerticalOptions="Center" />
+                        <Label x:Name="LblSteps" Text="0" FontSize="22" FontAttributes="Bold" Margin="12,0,0,0" />
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Calories metric -->
+                <Frame Padding="12" BackgroundColor="#000080" CornerRadius="8">
+                    <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Start">
+                        <Label Text="Burned kcal" FontSize="16" VerticalOptions="Center" />
+                        <Label x:Name="LblCalories" Text="0 kcal" FontSize="22" FontAttributes="Bold" Margin="12,0,0,0" />
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Sleep metric -->
+                <Frame Padding="12" BackgroundColor="#000080" CornerRadius="8">
+                    <VerticalStackLayout Spacing="8">
+                        <HorizontalStackLayout HorizontalOptions="Fill" VerticalOptions="Center">
+                            <Label Text="Sleep" FontSize="16" VerticalOptions="Center" />
+                            <Label x:Name="LblSleepTotal" Text="0h 0m" FontSize="16" FontAttributes="Bold" HorizontalOptions="EndAndExpand" />
+                        </HorizontalStackLayout>
+
+                        <!-- Hypnogram visualization grid -->
+                        <Grid x:Name="HypnogramGrid" HeightRequest="80" ColumnSpacing="0">
+                            <!-- Columns will be generated dynamically in code-behind -->
+                        </Grid>
+
+                        <!-- Legend -->
+                        <HorizontalStackLayout Spacing="12">
+                            <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                <BoxView Color="#FFC107" WidthRequest="18" HeightRequest="12" />
+                                <Label Text="Awake" FontSize="12" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                <BoxView Color="#FF0000" WidthRequest="18" HeightRequest="12" />
+                                <Label Text="REM" FontSize="12" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                <BoxView Color="#8BC34A" WidthRequest="18" HeightRequest="12" />
+                                <Label Text="Light" FontSize="12" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                <BoxView Color="#800080" WidthRequest="18" HeightRequest="12" />
+                                <Label Text="Deep" FontSize="12" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+                </Frame>
+
                 <!-- Hier komen later lifestyle logs / stats / knoppen -->
 
             </VerticalStackLayout>
