@@ -109,10 +109,10 @@ public partial class RegisterPage : ContentPage
 
         User user = new User
         {
-            Voornaam = voornaam,
-            Achternaam = achternaam,
+            FirstName = voornaam,
+            LastName = achternaam,
             Email = email,
-            Wachtwoord = wachtwoord,
+            Password = wachtwoord,
             Role = GekozenRol.Value
         };
 

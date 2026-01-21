@@ -27,8 +27,8 @@ public partial class ProfilePage : ContentPage
     {
         base.OnAppearing();
 
-        EntVoornaam.Text = IngelogdeUser.Voornaam;
-        EntAchternaam.Text = IngelogdeUser.Achternaam;
+        EntVoornaam.Text = IngelogdeUser.FirstName;
+        EntAchternaam.Text = IngelogdeUser.LastName;
         EntEmail.Text = IngelogdeUser.Email;
         EntWachtwoord.Text = "";
         EntHerhaalWachtwoord.Text = "";
@@ -118,7 +118,7 @@ public partial class ProfilePage : ContentPage
                 return;
             }
 
-            IngelogdeUser.Wachtwoord = wachtwoord;
+            IngelogdeUser.Password = wachtwoord;
         }
 
         if (string.IsNullOrWhiteSpace(wachtwoord))
@@ -130,8 +130,8 @@ public partial class ProfilePage : ContentPage
             }
         }
 
-        IngelogdeUser.Voornaam = voornaam;
-        IngelogdeUser.Achternaam = achternaam;
+        IngelogdeUser.FirstName = voornaam;
+        IngelogdeUser.LastName = achternaam;
         IngelogdeUser.Email = email;
 
         await Database.UpdateUserAsync(IngelogdeUser);

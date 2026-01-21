@@ -66,7 +66,7 @@ public partial class LoginPage : ContentPage
             return;
         }
 
-        if (user.Wachtwoord != wachtwoord)
+        if (user.Password != wachtwoord)
         {
             await DisplayAlert("Fout wachtwoord", "Het wachtwoord klopt niet.", "OK");
             return;

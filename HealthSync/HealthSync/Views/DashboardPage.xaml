@@ -12,7 +12,7 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="12">
 
-                <Label Text="{Binding IngelogdeUser.VolledigeNaam, StringFormat='Welkom {0} op het Dashboard'}"
+                <Label Text="{Binding IngelogdeUser.FullName, StringFormat='Welkom {0} op het Dashboard'}"
                        FontSize="18" />
 
                 <!-- Hier komen later je dashboard cards: medicatie vandaag, stats, etc. -->
