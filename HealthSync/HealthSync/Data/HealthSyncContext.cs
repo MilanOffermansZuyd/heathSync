@@ -19,10 +19,10 @@ namespace HealthSync.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Voornaam="Admin", Achternaam="Administrator", Email="admin@admin.nl", Wachtwoord="admin", Role= UserRole.Patient},
-                new User { Id = 2, Voornaam = "Frits", Achternaam = "Spits", Email = "f.spits@spits.nl", Wachtwoord = "fspits", Role = UserRole.Customer },
-                new User { Id = 3, Voornaam = "Miep", Achternaam = "Bliep", Email = "m.bliep@bliep.nl", Wachtwoord = "mbliep", Role = UserRole.Customer },
-                new User { Id = 4, Voornaam = "Ronald", Achternaam = "Wemel", Email = "r.wemel@wemel.nl", Wachtwoord = "rwemel", Role = UserRole.Patient }
+                new User { Id = 1, FirstName="Admin", LastName="Administrator", Email="admin@admin.nl", Password="admin", Role= UserRole.Patient},
+                new User { Id = 2, FirstName = "Frits", LastName = "Spits", Email = "f.spits@spits.nl", Password = "fspits", Role = UserRole.Customer },
+                new User { Id = 3, FirstName = "Miep", LastName = "Bliep", Email = "m.bliep@bliep.nl", Password = "mbliep", Role = UserRole.Customer },
+                new User { Id = 4, FirstName = "Ronald", LastName = "Wemel", Email = "r.wemel@wemel.nl", Password = "rwemel", Role = UserRole.Patient }
                 );
         }
     }
