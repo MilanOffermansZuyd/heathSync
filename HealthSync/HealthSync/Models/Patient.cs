@@ -8,6 +8,5 @@ namespace HealthSync.Models
 {
     public class Patient : User
     {
-        public List<Prescription> Prescriptions { get; set; } = new List<Prescription>();
     }
 }
