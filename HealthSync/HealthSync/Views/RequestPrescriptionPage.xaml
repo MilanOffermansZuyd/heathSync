@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthSync.Views.RequestPrescriptionPage"
+             Title="Medicatie aanvragen">
+
+    <Grid Padding="20"
+          RowDefinitions="*,Auto"
+          RowSpacing="12">
+
+        <!-- Scrollbaar gedeelte -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="12">
+
+                <!-- Info / uitleg -->
+                <Border Stroke="#CCCCCC"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Vraag een herhaalrecept aan"
+                               FontSize="16"
+                               FontAttributes="Bold" />
+                        <Label Text="Kies de medicatie, dokter en apotheek. De dokter keurt de aanvraag later goed of af."
+                               FontSize="13"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Formulier -->
+                <Border Stroke="#CCCCCC"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <Label Text="Medicatie" FontAttributes="Bold" />
+                        <Picker x:Name="PkrMedication"
+                                Title="Kies medicatie"
+                                ItemDisplayBinding="{Binding Name}" />
+
+                        <Label Text="Dokter" FontAttributes="Bold" />
+                        <Picker x:Name="PkrDoctor"
+                                Title="Kies dokter"
+                                ItemDisplayBinding="{Binding FullName}" />
+
+                        <Label Text="Apotheek" FontAttributes="Bold" />
+                        <Picker x:Name="PkrPharmacy"
+                                Title="Kies apotheek"
+                                ItemDisplayBinding="{Binding PharmacyName}" />
+
+                        <Label Text="Opmerking (optioneel)" FontAttributes="Bold" />
+                        <Editor x:Name="EdtNote"
+                                Placeholder="Bijv. 'Graag herhaalrecept' of extra uitleg..."
+                                AutoSize="TextChanges"
+                                HeightRequest="100" />
+
+                        <!-- Status / feedback label (handig voor later, kan leeg blijven) -->
+                        <Label x:Name="LblStatus"
+                               FontSize="13"
+                               TextColor="Gray"
+                               IsVisible="False" />
+
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Vaste knoppen onderaan -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,*"
+              ColumnSpacing="12">
+
+            <Button Grid.Column="0"
+                    x:Name="CancelRequest"
+                    Text="Annuleren"
+                    Clicked="CancelRequest_Clicked" />
+
+            <Button Grid.Column="1"
+                    x:Name="RequestPrescription"
+                    Text="Aanvragen"
+                    Clicked="RequestPrescription_Clicked" />
+
+        </Grid>
+
+    </Grid>
+</ContentPage>

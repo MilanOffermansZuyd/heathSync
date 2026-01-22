@@ -68,7 +68,7 @@
         </ScrollView>
 
         <!-- Vaste knop onderaan (kies nu alvast een placeholder) -->
-        <Button Grid.Row="1" x:Name="Testknop" Text="TestKnop"/>
+        <Button Grid.Row="1" x:Name="MedicationRequest" Text="Medicatie aanvragen" Clicked="MedicationRequest_Clicked"/>
 
     </Grid>
 </ContentPage>

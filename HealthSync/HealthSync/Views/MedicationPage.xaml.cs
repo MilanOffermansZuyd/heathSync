@@ -1,5 +1,6 @@
 using HealthSync.Data;
 using HealthSync.Models;
+using HealthSync.Services;
 using System.Collections.ObjectModel;
 
 namespace HealthSync.Views;
@@ -26,5 +27,16 @@ public partial class MedicationPage : ContentPage
 
         foreach (var p in items)
             Prescriptions.Add(p);
+    }
+
+    private async void MedicationRequest_Clicked(object sender, EventArgs e)
+    {
+        if (!Constanten.IsInternetAvailable())
+        {
+            await DisplayAlert("Geen internet", "Je hebt internet nodig om medicatie aan te vragen.", "OK");
+            return;
+        }
+
+        await Navigation.PushAsync(new RequestPrescriptionPage(Database, IngelogdeUser));
     }
 }

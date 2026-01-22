@@ -15,5 +15,7 @@ namespace HealthSync.Models
         public HealthData? HealthData { get; set; }
         public List<EmergencyContact> EmergencyContacts { get; set; } = new List<EmergencyContact>(); // Optioneel?
         public List<Prescription> Prescriptions { get; set; } = new List<Prescription>();
+        public List<PrescriptionRequest> PrescriptionRequests { get; set; } = new List<PrescriptionRequest>();
+
     }
 }

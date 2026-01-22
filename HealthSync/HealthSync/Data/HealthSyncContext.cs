@@ -17,6 +17,7 @@ namespace HealthSync.Data
 
         public DbSet<Medication> Medications { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
+        public DbSet<PrescriptionRequest> PrescriptionRequests { get; set; }
         public DbSet<Notification> Notifications { get; set; }
 
         public DbSet<HealthData> HealthDatas { get; set; }
@@ -66,6 +67,46 @@ namespace HealthSync.Data
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // User -> PrescriptionRequests
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.PrescriptionRequests)
+                .WithOne(r => r.User)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // PrescriptionRequest -> Medication
+            modelBuilder.Entity<PrescriptionRequest>()
+                .HasOne(r => r.Medication)
+                .WithMany()
+                .HasForeignKey(r => r.MedicationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // PrescriptionRequest -> Pharmacy
+            modelBuilder.Entity<PrescriptionRequest>()
+                .HasOne(r => r.Pharmacy)
+                .WithMany()
+                .HasForeignKey(r => r.PharmacyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // PrescriptionRequest -> Doctor
+            modelBuilder.Entity<PrescriptionRequest>()
+                .HasOne(r => r.Doctor)
+                .WithMany()
+                .HasForeignKey(r => r.DoctorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // PrescriptionRequest -> ApprovedPrescription (optioneel, 0..1)
+            modelBuilder.Entity<PrescriptionRequest>()
+                .HasOne(r => r.ApprovedPrescription)
+                .WithMany()
+                .HasForeignKey(r => r.ApprovedPrescriptionId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // ClientRequestId uniek maken in je lokale DB EVEN IN DE GATEN HOUDEN
+            modelBuilder.Entity<PrescriptionRequest>()
+                .HasIndex(r => r.ClientRequestId)
+                .IsUnique();
 
             // Prescription -> Medication
             modelBuilder.Entity<Prescription>()
