@@ -5,7 +5,6 @@ namespace HealthSyncWebApi
 {
     public class Program
     {
-        private const string prescriptionContactRoute = "/api/prescription";
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +20,8 @@ namespace HealthSyncWebApi
 
             app.UseAuthorization();
 
-            
+
+            app.MapGet("/ping", () => "pong");
 
             app.Run();
         }

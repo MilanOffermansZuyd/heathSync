@@ -67,21 +67,14 @@ private readonly DatabaseOperaties Database;
             PharmacyId = gekozenPharmacy.Id,
 
             Status = RequestStatus.Pending,
-            DateOfRequest = DateTime.UtcNow,
+            DateOfRequest = DateTime.Now,
             Note = EdtNote.Text?.Trim()
         };
 
         await Database.AddPrescriptionRequestAsync(request);
 
-        await DisplayAlert("Aanvraag opgeslagen", "Je aanvraag is opgeslagen en staat op 'Pending'.", "OK");
+        await DisplayAlert("Aanvraag opgeslagen", "Je aanvraag is opgeslagen en staat op 'Pending'. Bekijk je status bij 'Mijn aanvragen'.", "OK");
 
-        // Optioneel: velden resetten
-        PkrMedication.SelectedItem = null;
-        PkrDoctor.SelectedItem = null;
-        PkrPharmacy.SelectedItem = null;
-        EdtNote.Text = string.Empty;
-
-        LblStatus.IsVisible = true;
-        LblStatus.Text = "Aanvraag opgeslagen (Pending).";
+        await Navigation.PopAsync();
     }
 }

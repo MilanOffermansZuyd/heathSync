@@ -5,70 +5,139 @@
              Title="Medicatie">
 
     <Grid Padding="20"
-          RowDefinitions="*,Auto"
+          RowDefinitions="Auto,*,Auto"
           RowSpacing="12">
 
-        <!-- Alles wat mag scrollen -->
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout Spacing="12"
-                                 BindableLayout.ItemsSource="{Binding Prescriptions}">
+        <!-- Tab knoppen -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,*"
+              ColumnSpacing="12">
 
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
+            <Button x:Name="BtnTabMedicatie"
+                    Grid.Column="0"
+                    Text="Mijn medicatie"
+                    Clicked="TabMedicatie_Clicked" />
 
-                        <!-- MenuPage-stijl border -->
-                        <Border Stroke="#CCCCCC"
-                                StrokeThickness="1"
-                                Padding="14">
+            <Button x:Name="BtnTabAanvragen"
+                    Grid.Column="1"
+                    Text="Mijn aanvragen"
+                    Clicked="TabAanvragen_Clicked" />
 
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10" />
-                            </Border.StrokeShape>
+        </Grid>
 
-                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+        <!-- Content (scrollbaar) -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="12">
 
-                                <Label Grid.Row="0" Grid.Column="0"
-                                       Text="{Binding Medication.Name}"
-                                       FontSize="16"
-                                       FontAttributes="Bold" />
+                <!-- View 1: Medicatie lijst -->
+                <VerticalStackLayout x:Name="MedicatieView"
+                                     Spacing="12"
+                                     BindableLayout.ItemsSource="{Binding Prescriptions}">
 
-                                <Label Grid.Row="1" Grid.Column="0"
-                                       Text="{Binding TakeCount, StringFormat='{0}x per dag'}"
-                                       FontSize="14" />
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Stroke="#CCCCCC"
+                                    StrokeThickness="1"
+                                    Padding="14">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
 
-                                <Label Grid.Row="2" Grid.Column="0"
-                                       Text="{Binding Instruction}"
-                                       FontSize="13"
-                                       LineBreakMode="WordWrap" />
+                                <Grid ColumnDefinitions="*,Auto"
+                                      RowDefinitions="Auto,Auto,Auto,Auto,Auto">
 
-                                <Label Grid.Row="3" Grid.Column="0"
-                                       Text="{Binding Amount, StringFormat='Voorraad: {0}'}"
-                                       FontSize="14" />
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding Medication.Name}"
+                                           FontSize="16"
+                                           FontAttributes="Bold" />
 
-                                <Label Grid.Row="4" Grid.Column="0"
-                                       Text="{Binding RefillsRemaining, StringFormat='Extra pakjes voorraad: {0}'}"
-                                       FontSize="14" />
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                           Text="{Binding TakeCount, StringFormat='{0}x per dag'}"
+                                           FontSize="14" />
 
-                                <HorizontalStackLayout Grid.RowSpan="5"
-                                       Grid.Column="1"
-                                       Spacing="6"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="End">
-                                    <Label Text="💊" FontSize="22" />
-                                </HorizontalStackLayout>
+                                    <Label Grid.Row="2" Grid.Column="0"
+                                           Text="{Binding Instruction}"
+                                           FontSize="14"
+                                           LineBreakMode="WordWrap" />
 
-                            </Grid>
+                                    <Label Grid.Row="3" Grid.Column="0"
+                                           Text="{Binding Amount, StringFormat='Voorraad: {0}'}"
+                                           FontSize="14" />
 
-                        </Border>
+                                    <Label Grid.Row="4" Grid.Column="0"
+                                           Text="{Binding RefillsRemaining, StringFormat='Extra pakjes voorraad: {0}'}"
+                                           FontSize="14" />
 
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
+                                    <HorizontalStackLayout Grid.RowSpan="5"
+                                                           Grid.Column="1"
+                                                           Spacing="6"
+                                                           VerticalOptions="Center"
+                                                           HorizontalOptions="End">
+                                        <Label Text="💊" FontSize="22" />
+                                    </HorizontalStackLayout>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <!-- View 2: Aanvragen lijst -->
+                <VerticalStackLayout x:Name="AanvragenView"
+                                     IsVisible="False"
+                                     Spacing="12"
+                                     BindableLayout.ItemsSource="{Binding PrescriptionRequests}">
+
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Stroke="#CCCCCC"
+                                    StrokeThickness="1"
+                                    Padding="14">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+                                      ColumnDefinitions="*,Auto">
+
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding Medication.Name}"
+                                           FontSize="16"
+                                           FontAttributes="Bold" />
+
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                           Text="{Binding DateOfRequest, StringFormat='Aangevraagd: {0:dd-MM-yyyy HH:mm}'}"
+                                           FontSize="14"
+                                           TextColor="Gray" />
+
+                                    <Label Grid.Row="2" Grid.Column="0"
+                                           Text="{Binding Doctor.FullName, StringFormat='Dokter: {0}'}"
+                                           FontSize="14" />
+
+                                    <Label Grid.Row="3" Grid.Column="0"
+                                           Text="{Binding Pharmacy.PharmacyName, StringFormat='Apotheek: {0}'}"
+                                           FontSize="14" />
+
+                                    <Label Grid.RowSpan="4" Grid.Column="1"
+                                           Text="{Binding Status}"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="End" />
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                </VerticalStackLayout>
+
             </VerticalStackLayout>
-
         </ScrollView>
 
-        <!-- Vaste knop onderaan (kies nu alvast een placeholder) -->
-        <Button Grid.Row="1" x:Name="MedicationRequest" Text="Medicatie aanvragen" Clicked="MedicationRequest_Clicked"/>
+        <!-- Onderste knop blijft: alleen zichtbaar bij medicatie tab -->
+        <Button Grid.Row="2"
+                x:Name="MedicationRequest"
+                Text="Medicatie aanvragen"
+                Clicked="MedicationRequest_Clicked" />
 
     </Grid>
 </ContentPage>
