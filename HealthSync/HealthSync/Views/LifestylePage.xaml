@@ -13,23 +13,41 @@
             <VerticalStackLayout Spacing="12">
 
                 <!-- Steps metric -->
-                <Frame Padding="12" BackgroundColor="Grey" CornerRadius="8">
+                <Border Stroke="#CCCCCC"
+                        StrokeThickness="1"
+                        Padding="12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+
                     <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Start">
                         <Label Text="Steps" FontSize="16" VerticalOptions="Center" />
                         <Label x:Name="LblSteps" Text="0" FontSize="22" FontAttributes="Bold" Margin="12,0,0,0" />
                     </HorizontalStackLayout>
-                </Frame>
+                </Border>
 
                 <!-- Calories metric -->
-                <Frame Padding="12" BackgroundColor="Grey" CornerRadius="8">
+                <Border Stroke="#CCCCCC"
+                        StrokeThickness="1"
+                        Padding="12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+
                     <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Start">
                         <Label Text="Burned kcal" FontSize="16" VerticalOptions="Center" />
                         <Label x:Name="LblCalories" Text="0 kcal" FontSize="22" FontAttributes="Bold" Margin="12,0,0,0" />
                     </HorizontalStackLayout>
-                </Frame>
+                </Border>
 
                 <!-- Sleep metric -->
-                <Frame Padding="12" BackgroundColor="Grey" CornerRadius="8">
+                <Border Stroke="#CCCCCC"
+                        StrokeThickness="1"
+                        Padding="12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+
                     <VerticalStackLayout Spacing="8">
                         <HorizontalStackLayout HorizontalOptions="Fill" VerticalOptions="Center">
                             <Label Text="Sleep" FontSize="16" VerticalOptions="Center" />
@@ -62,7 +80,7 @@
                         </HorizontalStackLayout>
 
                     </VerticalStackLayout>
-                </Frame>
+                </Border>
 
                 <!-- Hier komen later lifestyle logs / stats / knoppen -->
 
