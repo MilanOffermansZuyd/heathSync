@@ -15,7 +15,7 @@ namespace HealthSyncWebApi
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline. TEST
+            // Configure the HTTP request pipeline.
 
             app.UseHttpsRedirection();
 

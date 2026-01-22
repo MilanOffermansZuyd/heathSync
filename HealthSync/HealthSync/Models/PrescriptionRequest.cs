@@ -25,6 +25,7 @@ namespace HealthSync.Models
         public int PharmacyId { get; set; }
         public Pharmacy? Pharmacy { get; set; }
         public RequestStatus Status { get; set; } = RequestStatus.Pending;
+        public string? Note { get; set; }
         public DateTime DateOfRequest { get; set; } = DateTime.UtcNow;
         public DateTime? DateOfResponse { get; set; }
         public int? ApprovedPrescriptionId { get; set; }

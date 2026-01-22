@@ -1,6 +1,7 @@
 ﻿using HealthSync.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace HealthSync.Data
             return await Database.Users
                 .Include(u => u.HealthData)
                 .Include(u => u.Prescriptions)
+                .Include(u => u.PrescriptionRequests)
                 .Include(u => u.EmergencyContacts)
                 .ToListAsync();
         }
@@ -32,6 +34,7 @@ namespace HealthSync.Data
             return await Database.Users
                 .Include(u => u.HealthData)
                 .Include(u => u.Prescriptions)
+                .Include(u => u.PrescriptionRequests)
                 .Include(u => u.EmergencyContacts)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
@@ -121,6 +124,48 @@ namespace HealthSync.Data
             await Database.SaveChangesAsync();
         }
 
+        // PrescriptionRequest
+        public async Task<List<PrescriptionRequest>> GetPrescriptionRequestsAsync()
+        {
+            return await Database.PrescriptionRequests
+                .Include(r => r.Medication)
+                .Include(r => r.Doctor)
+                .Include(r => r.Pharmacy)
+                .Include(r => r.ApprovedPrescription)
+                    .ThenInclude(p => p.Medication)
+                .ToListAsync();
+        }
+
+        public async Task<List<PrescriptionRequest>> GetPrescriptionRequestsByUserIdAsync(int userId)
+        {
+            return await Database.PrescriptionRequests
+                .Where(r => r.UserId == userId)
+                .Include(r => r.Medication)
+                .Include(r => r.Doctor)
+                .Include(r => r.Pharmacy)
+                .Include(r => r.ApprovedPrescription)
+                    .ThenInclude(p => p.Medication)
+                .OrderByDescending(r => r.DateOfRequest)
+                .ToListAsync();
+        }
+
+        public async Task AddPrescriptionRequestAsync(PrescriptionRequest request)
+        {
+            Database.PrescriptionRequests.Add(request);
+            await Database.SaveChangesAsync();
+        }
+
+        public async Task UpdatePrescriptionRequestAsync(PrescriptionRequest request)
+        {
+            Database.PrescriptionRequests.Update(request);
+            await Database.SaveChangesAsync();
+        }
+        public async Task DeletePrescriptionRequestAsync(PrescriptionRequest request)
+        {
+            Database.PrescriptionRequests.Remove(request);
+            await Database.SaveChangesAsync();
+        }
+
         // HealthData
         public async Task<List<HealthData>> GetHealthDataAsync()
         {
@@ -189,6 +234,21 @@ namespace HealthSync.Data
             Database.Notifications.Remove(notification);
             await Database.SaveChangesAsync();
         }
+
+        // Doctor
+        public async Task<List<Doctor>> GetDoctorsAsync()
+        {
+            return await Database.Doctors
+                .ToListAsync();
+        }
+
+        // Pharmacy
+        public async Task<List<Pharmacy>> GetPharmaciesAsync()
+        {
+            return await Database.Pharmacies
+                .ToListAsync();
+        }
+
 
         // Registratie - Email Check
         public async Task<bool> EmailBestaatAsync(string email)
