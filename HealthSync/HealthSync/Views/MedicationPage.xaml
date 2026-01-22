@@ -10,15 +10,61 @@
 
         <!-- Alles wat mag scrollen -->
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="12"
+                                 BindableLayout.ItemsSource="{Binding Prescriptions}">
 
-                <!-- Tijdelijk: test binding -->
-                <Label Text="{Binding IngelogdeUser.Role, StringFormat='Ingelogd als: {0} (Medicatie)'}"
-                       FontSize="18" />
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
 
-                <!-- Hier komt later lijst/overzicht van medicatie -->
+                        <!-- MenuPage-stijl border -->
+                        <Border Stroke="#CCCCCC"
+                                StrokeThickness="1"
+                                Padding="14">
 
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       Text="{Binding Medication.Name}"
+                                       FontSize="16"
+                                       FontAttributes="Bold" />
+
+                                <Label Grid.Row="1" Grid.Column="0"
+                                       Text="{Binding TakeCount, StringFormat='{0}x per dag'}"
+                                       FontSize="14" />
+
+                                <Label Grid.Row="2" Grid.Column="0"
+                                       Text="{Binding Instruction}"
+                                       FontSize="13"
+                                       LineBreakMode="WordWrap" />
+
+                                <Label Grid.Row="3" Grid.Column="0"
+                                       Text="{Binding Amount, StringFormat='Voorraad: {0}'}"
+                                       FontSize="14" />
+
+                                <Label Grid.Row="4" Grid.Column="0"
+                                       Text="{Binding RefillsRemaining, StringFormat='Extra pakjes voorraad: {0}'}"
+                                       FontSize="14" />
+
+                                <HorizontalStackLayout Grid.RowSpan="5"
+                                       Grid.Column="1"
+                                       Spacing="6"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="End">
+                                    <Label Text="💊" FontSize="22" />
+                                </HorizontalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
             </VerticalStackLayout>
+
         </ScrollView>
 
         <!-- Vaste knop onderaan (kies nu alvast een placeholder) -->
