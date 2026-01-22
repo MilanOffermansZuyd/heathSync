@@ -1,7 +1,9 @@
 
 using HealthSyncWebApi.Data;
 using HealthSyncWebApi.Models;
+using HealthSyncWebApi.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace HealthSyncWebApi
 {
@@ -15,6 +17,13 @@ namespace HealthSyncWebApi
 
             builder.Services.AddDbContext<ApiDbContext>(options =>
                 options.UseSqlite("Data Source=APIHealthSync.db"));
+
+            
+            builder.Services.ConfigureHttpJsonOptions(options =>
+            {
+                options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
 
             var app = builder.Build();
 
@@ -64,7 +73,7 @@ namespace HealthSyncWebApi
                     PharmacyId = input.PharmacyId,
                     Note = input.Note,
 
-                    Status = "Pending",
+                    Status = RequestStatus.Pending,
                     DateOfRequest = DateTime.Now,
                     DateOfResponse = null
                 };
@@ -96,7 +105,7 @@ namespace HealthSyncWebApi
                 if (request == null)
                     return Results.NotFound("Aanvraag niet gevonden.");
 
-                if (request.Status != "Pending")
+                if (request.Status != RequestStatus.Pending)
                     return Results.BadRequest("Alleen Pending aanvragen kunnen worden goedgekeurd.");
 
                 // Recept maken
@@ -122,7 +131,7 @@ namespace HealthSyncWebApi
                 await db.SaveChangesAsync(); // zodat prescription.Id bestaat
 
                 // Request updaten
-                request.Status = "Approved";
+                request.Status = RequestStatus.Approved;
                 request.DateOfResponse = DateTime.Now;
                 request.ApprovedPrescriptionId = prescription.Id;
 
@@ -142,10 +151,10 @@ namespace HealthSyncWebApi
                 if (request == null)
                     return Results.NotFound("Aanvraag niet gevonden.");
 
-                if (request.Status != "Pending")
+                if (request.Status != RequestStatus.Pending)
                     return Results.BadRequest("Alleen Pending aanvragen kunnen worden afgekeurd.");
 
-                request.Status = "Denied";
+                request.Status = RequestStatus.Denied;
                 request.DateOfResponse = DateTime.Now;
 
                 await db.SaveChangesAsync();

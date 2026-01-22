@@ -1,4 +1,6 @@
-﻿namespace HealthSyncWebApi.Models
+﻿using HealthSyncWebApi.Models.Enums;
+
+namespace HealthSyncWebApi.Models
 {
     public class PrescriptionRequest
     {
@@ -13,7 +15,7 @@
 
         public string? Note { get; set; }
 
-        public string Status { get; set; } = "Pending"; // Pending/Approved/Denied
+        public RequestStatus Status { get; set; } = RequestStatus.Pending;
         public DateTime DateOfRequest { get; set; } = DateTime.Now;
         public DateTime? DateOfResponse { get; set; }
         public int? ApprovedPrescriptionId { get; set; }
