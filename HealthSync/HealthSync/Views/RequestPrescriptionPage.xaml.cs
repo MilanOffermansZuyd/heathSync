@@ -1,6 +1,9 @@
 using HealthSync.Data;
 using HealthSync.Models;
 using HealthSync.Models.Enums;
+using Microsoft.Extensions.DependencyInjection;
+using HealthSync.Services;
+
 
 namespace HealthSync.Views;
 
@@ -61,17 +64,44 @@ private readonly DatabaseOperaties Database;
 
         var request = new PrescriptionRequest
         {
+            ClientRequestId = Guid.NewGuid(),
             UserId = IngelogdeUser.Id,
             MedicationId = gekozenMed.Id,
             DoctorId = gekozenDoctor.Id,
             PharmacyId = gekozenPharmacy.Id,
-
             Status = RequestStatus.Pending,
             DateOfRequest = DateTime.Now,
             Note = EdtNote.Text?.Trim()
         };
 
         await Database.AddPrescriptionRequestAsync(request);
+
+        if (Constanten.IsInternetAvailable())
+        {
+            try
+            {
+                var sp = Application.Current?.Handler?.MauiContext?.Services;
+                if (sp == null)
+                    throw new Exception("ServiceProvider niet beschikbaar.");
+
+                var api = sp.GetRequiredService<ApiService>();
+
+                var savedFromApi = await api.CreatePrescriptionRequestAsync(request);
+
+                request.RemoteId = savedFromApi.RemoteId;
+                request.Status = savedFromApi.Status;
+                request.DateOfRequest = savedFromApi.DateOfRequest;
+                request.DateOfResponse = savedFromApi.DateOfResponse;
+                request.ApprovedPrescriptionId = savedFromApi.ApprovedPrescriptionId;
+                request.ApprovedPrescription = savedFromApi.ApprovedPrescription;
+
+                await Database.UpdatePrescriptionRequestAsync(request);
+            }
+            catch
+            {
+                // API faalde -> lokaal staat hij al.
+            }
+        }
 
         await DisplayAlert("Aanvraag opgeslagen", "Je aanvraag is opgeslagen en staat op 'Pending'. Bekijk je status bij 'Mijn aanvragen'.", "OK");
 
