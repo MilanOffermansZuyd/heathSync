@@ -12,55 +12,6 @@
             <VerticalStackLayout Spacing="12">
 
                 <!-- Menu items -->
-                <!-- Kennisclips -->
-                <Border Stroke="#CCCCCC" StrokeThickness="1" Padding="14">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer x:Name="Kennisclips" Tapped="Kennisclips_Tapped"/>
-                    </Border.GestureRecognizers>
-                    
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="10" />
-                    </Border.StrokeShape>
-                    
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Kennisclips" FontSize="16" />
-                        <Label Grid.Column="1" Text=">" FontSize="16" />
-                    </Grid>
-                </Border>
-
-                <!-- Stress & Meditatie -->
-                <Border Stroke="#CCCCCC" StrokeThickness="1" Padding="14">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer x:Name="StresMeditatie" Tapped="StresMeditatie_Tapped"/>
-                    </Border.GestureRecognizers>
-                    
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="10" />
-                    </Border.StrokeShape>
-                    
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Stress &amp; Meditatie" FontSize="16" />
-                        <Label Grid.Column="1" Text=">" FontSize="16" />
-                    </Grid>
-                </Border>
-
-
-                <!-- Afspraken -->
-                <Border Stroke="#CCCCCC" StrokeThickness="1" Padding="14">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer x:Name="Afspraken" Tapped="Afspraken_Tapped"/>
-                    </Border.GestureRecognizers>
-                    
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="10" />
-                    </Border.StrokeShape>
-                    
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Afspraken" FontSize="16" />
-                        <Label Grid.Column="1" Text=">" FontSize="16" />
-                    </Grid>
-                </Border>
-
                 <!-- Profiel & instellingen -->
                 <Border Stroke="#CCCCCC" StrokeThickness="1" Padding="14">
                     <Border.GestureRecognizers>

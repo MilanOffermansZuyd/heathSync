@@ -12,7 +12,7 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="12">
 
-                <Label Text="{Binding IngelogdeUser.FullName, StringFormat='Welkom {0} op het Dashboard'}"
+                <Label Text="{Binding IngelogdeUser.FullName, StringFormat='Welkom {0}'}"
                        FontSize="18" />
 
                 <Label Text="{Binding LastRefreshedText, StringFormat='Laatst bijgewerkt: {0}'}"

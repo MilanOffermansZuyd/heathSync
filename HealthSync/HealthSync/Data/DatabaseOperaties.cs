@@ -61,7 +61,7 @@ namespace HealthSync.Data
         // Medication
         public async Task<List<Medication>> GetMedicationsAsync()
         {
-            return await Database.Medications.ToListAsync();
+            return await Database.Medications.OrderBy(m => m.Name).ThenBy(m => m.Strength).ToListAsync();
         }
 
         public async Task<Medication?> GetMedicationByIdAsync(int id)
@@ -240,6 +240,7 @@ namespace HealthSync.Data
         public async Task<List<Doctor>> GetDoctorsAsync()
         {
             return await Database.Doctors
+                .OrderBy(d => d.LastName).ThenBy(d => d.FirstName)
                 .ToListAsync();
         }
 
@@ -247,6 +248,7 @@ namespace HealthSync.Data
         public async Task<List<Pharmacy>> GetPharmaciesAsync()
         {
             return await Database.Pharmacies
+                .OrderBy(p => p.PharmacyName)
                 .ToListAsync();
         }
 

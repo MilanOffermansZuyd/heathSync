@@ -120,8 +120,30 @@ public partial class DashboardPage : ContentPage
 
             LatestRequestTitleText = $"{medName} • {doctorName}";
             LatestRequestStatusText = latest.Status.ToString();
-            LatestRequestTimeText = $"Aangevraagd: {latest.DateOfRequest:dd-MM-yyyy HH:mm}";
+
+            if (latest.Status == RequestStatus.Pending)
+            {
+                LatestRequestTimeText = $"Aangevraagd: {latest.DateOfRequest:dd-MM-yyyy HH:mm}";
+            }
+            else if (latest.Status == RequestStatus.Approved)
+            {
+                LatestRequestTimeText = latest.DateOfResponse.HasValue
+                    ? $"Goedgekeurd: {latest.DateOfResponse.Value:dd-MM-yyyy HH:mm}"
+                    : "Goedgekeurd: (datum onbekend)";
+            }
+            else if (latest.Status == RequestStatus.Denied)
+            {
+                LatestRequestTimeText = latest.DateOfResponse.HasValue
+                    ? $"Afgekeurd: {latest.DateOfResponse.Value:dd-MM-yyyy HH:mm}"
+                    : "Afgekeurd: (datum onbekend)";
+            }
+            else
+            {
+                // fallback voor eventuele nieuwe status
+                LatestRequestTimeText = $"Aangevraagd: {latest.DateOfRequest:dd-MM-yyyy HH:mm}";
+            }
         }
+
 
         LastRefreshedText = DateTime.Now.ToString("dd-MM-yyyy HH:mm");
 

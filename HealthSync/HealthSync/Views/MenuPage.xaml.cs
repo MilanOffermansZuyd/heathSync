@@ -23,20 +23,6 @@ public partial class MenuPage : ContentPage
         this.Window.Page = new NavigationPage(new LoginPage(Database));
     }
 
-    private async void Kennisclips_Tapped(object sender, TappedEventArgs e)
-    {
-        await DisplayAlert("Kennisclips", "Nog niet geïmplementeerd", "OK");
-    }
-
-    private async void StresMeditatie_Tapped(object sender, TappedEventArgs e)
-    {
-        await DisplayAlert("Stress & Meditatie", "Nog niet geïmplementeerd", "OK");
-    }
-
-    private async void Afspraken_Tapped(object sender, TappedEventArgs e)
-    {
-        await DisplayAlert("Afspraken", "Nog niet geïmplementeerd", "OK");
-    }
 
     private async void ProfielInstellingen_Tapped(object sender, TappedEventArgs e)
     {
