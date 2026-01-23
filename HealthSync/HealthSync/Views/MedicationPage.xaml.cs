@@ -25,19 +25,43 @@ public partial class MedicationPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        await SyncAndRefreshAsync();
+    }
 
+    private async Task RefreshFromLocalAsync()
+    {
         Prescriptions.Clear();
         var prescriptions = await Database.GetPrescriptionsByUserIdAsync(IngelogdeUser.Id);
-
-        foreach (var prescription in prescriptions)
-            Prescriptions.Add(prescription);
+        foreach (var p in prescriptions)
+            Prescriptions.Add(p);
 
         PrescriptionRequests.Clear();
-        var prescriptionRequests = await Database.GetPrescriptionRequestsByUserIdAsync(IngelogdeUser.Id);
-
-        foreach (var request in prescriptionRequests)
-            PrescriptionRequests.Add(request);
+        var requests = await Database.GetPrescriptionRequestsByUserIdAsync(IngelogdeUser.Id);
+        foreach (var r in requests)
+            PrescriptionRequests.Add(r);
     }
+
+    private async Task SyncAndRefreshAsync()
+    {
+        if (Constanten.IsInternetAvailable())
+        {
+            try
+            {
+                var sp = Application.Current?.Handler?.MauiContext?.Services;
+                var api = (ApiService?)sp?.GetService(typeof(ApiService));
+
+                if (api != null)
+                    await Database.SyncPrescriptionDataFromApiAsync(api, IngelogdeUser.Id);
+            }
+            catch
+            {
+                // sync faalt -> gewoon lokaal tonen
+            }
+        }
+
+        await RefreshFromLocalAsync();
+    }
+
 
     private void SetTab(bool toonAanvragen)
     {
@@ -56,13 +80,15 @@ public partial class MedicationPage : ContentPage
     }
 
 
-    private void TabMedicatie_Clicked(object sender, EventArgs e)
+    private async void TabMedicatie_Clicked(object sender, EventArgs e)
     {
+        await SyncAndRefreshAsync();
         SetTab(false);
     }
 
-    private void TabAanvragen_Clicked(object sender, EventArgs e)
+    private async void TabAanvragen_Clicked(object sender, EventArgs e)
     {
+        await SyncAndRefreshAsync();
         SetTab(true);
     }
 

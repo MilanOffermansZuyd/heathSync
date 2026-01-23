@@ -33,7 +33,10 @@ namespace HealthSync.Models
         public string? Note { get; set; }
         public DateTime DateOfRequest { get; set; } = DateTime.UtcNow;
         public DateTime? DateOfResponse { get; set; }
+        [JsonIgnore]
         public int? ApprovedPrescriptionId { get; set; }
+        [JsonPropertyName("approvedPrescriptionId")]
+        public int? ApprovedPrescriptionRemoteId { get; set; }
         public Prescription? ApprovedPrescription { get; set; }
     }
 }
