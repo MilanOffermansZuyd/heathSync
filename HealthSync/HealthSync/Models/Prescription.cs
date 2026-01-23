@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace HealthSync.Models
 {
     public class Prescription
     {
+        [JsonIgnore]
         public int Id { get; set; }
+        [JsonPropertyName("id")]
+        public int? RemoteId { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
         public int MedicationId { get; set; }

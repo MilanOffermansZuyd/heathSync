@@ -92,8 +92,10 @@ private readonly DatabaseOperaties Database;
                 request.Status = savedFromApi.Status;
                 request.DateOfRequest = savedFromApi.DateOfRequest;
                 request.DateOfResponse = savedFromApi.DateOfResponse;
-                request.ApprovedPrescriptionId = savedFromApi.ApprovedPrescriptionId;
+
+                request.ApprovedPrescriptionRemoteId = savedFromApi.ApprovedPrescriptionRemoteId;
                 request.ApprovedPrescription = savedFromApi.ApprovedPrescription;
+
 
                 await Database.UpdatePrescriptionRequestAsync(request);
             }

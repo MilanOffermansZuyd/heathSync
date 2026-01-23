@@ -1,4 +1,5 @@
 ﻿using HealthSync.Models;
+using HealthSync.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
@@ -255,5 +256,131 @@ namespace HealthSync.Data
         {
             return await Database.Users.AnyAsync(u => u.Email == email);
         }
+
+        // API Sync
+        public async Task SyncPrescriptionDataFromApiAsync(ApiService api, int userId)
+        {
+            var remoteRequests = await api.GetPrescriptionRequestsAsync(userId);
+
+            var localRequests = await GetPrescriptionRequestsByUserIdAsync(userId);
+            var localPrescriptions = await GetPrescriptionsByUserIdAsync(userId);
+
+            var localByRemoteId = localRequests
+                .Where(r => r.RemoteId.HasValue)
+                .GroupBy(r => r.RemoteId!.Value)
+                .ToDictionary(g => g.Key, g => g.First());
+
+            var localByClientId = localRequests
+                .GroupBy(r => r.ClientRequestId)
+                .ToDictionary(g => g.Key, g => g.First());
+
+            var localPrescriptionByRemoteId = localPrescriptions
+                .Where(p => p.RemoteId.HasValue)
+                .GroupBy(p => p.RemoteId!.Value)
+                .ToDictionary(g => g.Key, g => g.First());
+
+            foreach (var remote in remoteRequests)
+            {
+                PrescriptionRequest? local = null;
+
+                if (remote.RemoteId.HasValue && localByRemoteId.TryGetValue(remote.RemoteId.Value, out var hitRemote))
+                    local = hitRemote;
+                else if (localByClientId.TryGetValue(remote.ClientRequestId, out var hitClient))
+                    local = hitClient;
+
+                if (local == null)
+                {
+                    local = new PrescriptionRequest
+                    {
+                        ClientRequestId = remote.ClientRequestId,
+                        RemoteId = remote.RemoteId,
+
+                        UserId = remote.UserId,
+                        MedicationId = remote.MedicationId,
+                        DoctorId = remote.DoctorId,
+                        PharmacyId = remote.PharmacyId,
+
+                        Note = remote.Note,
+                        Status = remote.Status,
+                        DateOfRequest = remote.DateOfRequest,
+                        DateOfResponse = remote.DateOfResponse,
+
+                        ApprovedPrescriptionRemoteId = remote.ApprovedPrescriptionRemoteId
+                    };
+
+                    await AddPrescriptionRequestAsync(local);
+
+                    if (local.RemoteId.HasValue)
+                        localByRemoteId[local.RemoteId.Value] = local;
+                    localByClientId[local.ClientRequestId] = local;
+                }
+                else
+                {
+                    local.RemoteId = remote.RemoteId;
+                    local.Status = remote.Status;
+                    local.DateOfRequest = remote.DateOfRequest;
+                    local.DateOfResponse = remote.DateOfResponse;
+                    local.Note = remote.Note;
+
+                    local.ApprovedPrescriptionRemoteId = remote.ApprovedPrescriptionRemoteId;
+
+                    if (remote.Status != Models.Enums.RequestStatus.Approved)
+                        local.ApprovedPrescriptionId = null;
+
+                    await UpdatePrescriptionRequestAsync(local);
+                }
+
+                if (remote.Status == Models.Enums.RequestStatus.Approved && remote.ApprovedPrescription != null)
+                {
+                    var remotePrescriptionId =
+                        remote.ApprovedPrescriptionRemoteId
+                        ?? remote.ApprovedPrescription.RemoteId;
+
+                    if (remotePrescriptionId.HasValue)
+                    {
+                        if (!localPrescriptionByRemoteId.TryGetValue(remotePrescriptionId.Value, out var localPrescription))
+                        {
+                            localPrescription = new Prescription
+                            {
+                                RemoteId = remotePrescriptionId.Value,
+
+                                UserId = remote.ApprovedPrescription.UserId,
+                                MedicationId = remote.ApprovedPrescription.MedicationId,
+                                DoctorId = remote.ApprovedPrescription.DoctorId,
+                                PharmacyId = remote.ApprovedPrescription.PharmacyId,
+
+                                DateOfPrescription = remote.ApprovedPrescription.DateOfPrescription,
+                                Amount = remote.ApprovedPrescription.Amount,
+                                Unit = remote.ApprovedPrescription.Unit,
+                                RefillsRemaining = remote.ApprovedPrescription.RefillsRemaining,
+                                TakeCount = remote.ApprovedPrescription.TakeCount,
+                                TimeBetweenMinutes = remote.ApprovedPrescription.TimeBetweenMinutes,
+                                Instruction = remote.ApprovedPrescription.Instruction
+                            };
+
+                            await AddPrescriptionAsync(localPrescription);
+                            localPrescriptionByRemoteId[remotePrescriptionId.Value] = localPrescription;
+                        }
+                        else
+                        {
+                            localPrescription.DateOfPrescription = remote.ApprovedPrescription.DateOfPrescription;
+                            localPrescription.Amount = remote.ApprovedPrescription.Amount;
+                            localPrescription.Unit = remote.ApprovedPrescription.Unit;
+                            localPrescription.RefillsRemaining = remote.ApprovedPrescription.RefillsRemaining;
+                            localPrescription.TakeCount = remote.ApprovedPrescription.TakeCount;
+                            localPrescription.TimeBetweenMinutes = remote.ApprovedPrescription.TimeBetweenMinutes;
+                            localPrescription.Instruction = remote.ApprovedPrescription.Instruction;
+
+                            await UpdatePrescriptionAsync(localPrescription);
+                        }
+
+                        local.ApprovedPrescriptionId = localPrescription.Id;
+                        local.ApprovedPrescriptionRemoteId = remotePrescriptionId.Value;
+                        await UpdatePrescriptionRequestAsync(local);
+                    }
+                }
+            }
+        }
+
     }
 }
