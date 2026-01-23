@@ -7,11 +7,14 @@ namespace HealthSync.Views;
 
 public partial class MedicationPage : ContentPage
 {
-	private DatabaseOperaties Database;
+	private readonly DatabaseOperaties Database;
     public User IngelogdeUser { get; set; }
     public ObservableCollection<Prescription> Prescriptions { get; } = new();
     public ObservableCollection<PrescriptionRequest> PrescriptionRequests { get; } = new();
 
+    private IDispatcherTimer? syncTimer;
+    private bool syncRunning;
+    private int syncIntervalSeconds = 30;
 
     public MedicationPage(DatabaseOperaties database, User ingelogdeUser)
 	{
@@ -26,6 +29,47 @@ public partial class MedicationPage : ContentPage
     {
         base.OnAppearing();
         await SyncAndRefreshAsync();
+        StartAutoSync();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        StopAutoSync();
+    }
+
+    private void StartAutoSync()
+    {
+        if (syncTimer != null) return;
+
+        syncTimer = Dispatcher.CreateTimer();
+        syncTimer.Interval = TimeSpan.FromSeconds(syncIntervalSeconds);
+        syncTimer.IsRepeating = true;
+
+        syncTimer.Tick += async (s, e) =>
+        {
+            if (syncRunning) return;
+            syncRunning = true;
+
+            try
+            {
+                await SyncAndRefreshAsync();
+            }
+            finally
+            {
+                syncRunning = false;
+            }
+        };
+
+        syncTimer.Start();
+    }
+
+    private void StopAutoSync()
+    {
+        if (syncTimer == null) return;
+
+        syncTimer.Stop();
+        syncTimer = null;
     }
 
     private async Task RefreshFromLocalAsync()
