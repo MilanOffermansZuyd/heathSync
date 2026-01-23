@@ -4,6 +4,7 @@ using HealthSync.Views;
 using HealthSync.Views.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Net.Http;
 
 namespace HealthSync
 {
@@ -42,6 +43,32 @@ namespace HealthSync
             //builder.Services.AddTransient<LifestylePage>();
 
             //builder.Services.AddTransient<MainTabbedPage>();
+            string baseUrl =
+                #if ANDROID
+                    "https://10.0.2.2:7112/";      // Android emulator -> jouw PC localhost
+                #else
+                    "https://localhost:7112/";      // Windows (en meestal ook Mac)
+                #endif
+
+            // 2) HttpClient registreren (met dev-cert bypass in DEBUG)
+            builder.Services.AddSingleton(sp =>
+            {
+                var handler = new HttpClientHandler();
+
+#if DEBUG
+                // Alleen voor development! (handig bij self-signed HTTPS op Android/Windows)
+                handler.ServerCertificateCustomValidationCallback =
+                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#endif
+
+                return new HttpClient(handler)
+                {
+                    BaseAddress = new Uri(baseUrl)
+                };
+            });
+
+            // 3) ApiService registreren
+            builder.Services.AddSingleton<ApiService>();
 
             return builder.Build();
         }

@@ -4,17 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthSync.Models.Enums;
+using System.Text.Json.Serialization;
+
 
 namespace HealthSync.Models
 {
     public class PrescriptionRequest
     {
+        [JsonIgnore] // lokaal DB id, mag nooit uit API komen
         public int Id { get; set; }
+
+        // ID die je terugkrijgt van de API zodra het request daar is opgeslagen
+        [JsonPropertyName("id")] // API id -> RemoteId
+        public int? RemoteId { get; set; }
 
         // Unieke id vanuit de app (handig voor sync / dubbele requests voorkomen)
         public Guid ClientRequestId { get; set; } = Guid.NewGuid();
-        // ID die je terugkrijgt van de API zodra het request daar is opgeslagen
-        public int? RemoteId { get; set; }
 
         public int UserId { get; set; }
         public User? User { get; set; }
