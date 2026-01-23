@@ -15,7 +15,93 @@
                 <Label Text="{Binding IngelogdeUser.FullName, StringFormat='Welkom {0} op het Dashboard'}"
                        FontSize="18" />
 
-                <!-- Hier komen later je dashboard cards: medicatie vandaag, stats, etc. -->
+                <Label Text="{Binding LastRefreshedText, StringFormat='Laatst bijgewerkt: {0}'}"
+                       FontSize="13"
+                       TextColor="Gray" />
+
+                <!-- Cards -->
+                <Grid ColumnDefinitions="*,*"
+                      RowDefinitions="Auto,Auto"
+                      ColumnSpacing="12"
+                      RowSpacing="12">
+
+                    <!-- Card: Actieve medicatie -->
+                    <Border Grid.Row="0" Grid.Column="0"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="1"
+                            Padding="14">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Actieve medicatie"
+                                   FontAttributes="Bold"
+                                   FontSize="14" />
+                            <Label Text="{Binding ActiveMedicationCount}"
+                                   FontSize="22"
+                                   FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Card: Open aanvragen -->
+                    <Border Grid.Row="0" Grid.Column="1"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="1"
+                            Padding="14">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Open aanvragen"
+                                   FontAttributes="Bold"
+                                   FontSize="14" />
+                            <Label Text="{Binding PendingRequestCount}"
+                                   FontSize="22"
+                                   FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Card: Laatste aanvraag (spant over 2 kolommen) -->
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                            Stroke="#CCCCCC"
+                            StrokeThickness="1"
+                            Padding="14">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+
+                        <Grid ColumnDefinitions="*,Auto"
+                              RowDefinitions="Auto,Auto,Auto"
+                              RowSpacing="4">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="Laatste aanvraag"
+                                   FontAttributes="Bold"
+                                   FontSize="14" />
+
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Grid.RowSpan="3"
+                                   Text="{Binding LatestRequestStatusText}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="End" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Text="{Binding LatestRequestTitleText}"
+                                   FontSize="15"
+                                   LineBreakMode="WordWrap" />
+
+                            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Text="{Binding LatestRequestTimeText}"
+                                   FontSize="13"
+                                   TextColor="Gray" />
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
 
             </VerticalStackLayout>
         </ScrollView>
