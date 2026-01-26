@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthSync.Views.EmergencyHelpPage"
+             Title="EmergencyHelpPage">
+    <Grid Padding="15" RowDefinitions="Auto,*,Auto">
+
+        <!-- Titel -->
+        <Label Text="Noodcontacten"
+           FontSize="22"
+           Grid.Row="0"/>
+
+        <!-- LIST -->
+        <CollectionView x:Name="ContactsView"
+                    Grid.Row="1"
+                    SelectionMode="Single"
+                    SelectionChanged="OnContactSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="10" Margin="5">
+                        <Label Text="{Binding Name}" FontSize="16"/>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- FORM -->
+        <VerticalStackLayout Grid.Row="2" Spacing="10">
+
+            <Entry x:Name="NameEntry" Placeholder="Naam"/>
+            <Entry x:Name="PhoneEntry"
+               Placeholder="Telefoonnummer"
+               Keyboard="Telephone"/>
+
+            <Button Text="Opslaan" Clicked="OnSaveClicked"/>
+            <Button x:Name="DeleteButton"
+                Text="Verwijderen"
+                IsVisible="False"
+                Clicked="OnDeleteClicked"/>
+
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

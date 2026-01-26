@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthSync.Views.CallEmergencyContactPage"
+             Title="CallEmergencyContactPage">
+    <Grid Padding="20"
+      RowDefinitions="Auto,Auto,*">
+
+        <!-- Titel -->
+        <Label Text="Kies een noodcontact"
+           FontSize="22"
+           Grid.Row="0"
+           HorizontalOptions="Center"/>
+
+        <!-- Countdown -->
+        <Label x:Name="CountdownLabel"
+           TextColor="Red"
+           Grid.Row="1"
+           HorizontalOptions="Center"/>
+
+        <!-- CONTACT LIST -->
+        <CollectionView x:Name="ContactsView"
+                    Grid.Row="2"
+                    SelectionMode="Single"
+                    SelectionChanged="OnContactSelected">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="12" Margin="5">
+                        <Label Text="{Binding Name}"
+                           FontSize="18"/>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

@@ -31,6 +31,6 @@ public partial class MenuPage : ContentPage
 
     private async void Noodhulp_Tapped(object sender, TappedEventArgs e)
     {
-        await DisplayAlert("Noodhulp", "Nog niet geïmplementeerd", "OK");
+        await Navigation.PushAsync(new EmergencyHelpPage(Database, IngelogdeUser));
     }
 }

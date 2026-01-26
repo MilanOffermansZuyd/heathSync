@@ -58,6 +58,38 @@ namespace HealthSync.Data
             await Database.SaveChangesAsync();
         }
 
+        // EmergencyContact
+        public async Task<List<EmergencyContact>> GetEmergencyContactAsync()
+        {
+            return await Database.EmergencyContacts.ToListAsync();
+        }
+
+        public async Task<List<EmergencyContact>> GetEmergencyContactsByUserIdAsync(int id)
+        {
+            return await Database.EmergencyContacts
+                .Where(u => u.UserId == id)
+                .Select(x => x)
+                .ToListAsync();
+        }
+
+        public async Task AddEmergencyContactAsync(EmergencyContact emergencyContact)
+        {
+            Database.EmergencyContacts.Add(emergencyContact);
+            await Database.SaveChangesAsync();
+        }
+
+        public async Task UpdateUserAsync(EmergencyContact emergencyContact)
+        {
+            Database.EmergencyContacts.Update(emergencyContact);
+            await Database.SaveChangesAsync();
+        }
+
+        public async Task DeleteEmergencyContactAsync(EmergencyContact emergencyContact)
+        {
+            Database.EmergencyContacts.Remove(emergencyContact);
+            await Database.SaveChangesAsync();
+        }
+
         // Medication
         public async Task<List<Medication>> GetMedicationsAsync()
         {
