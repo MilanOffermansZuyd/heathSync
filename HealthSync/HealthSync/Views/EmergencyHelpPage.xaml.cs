@@ -30,13 +30,19 @@ public partial class EmergencyHelpPage : ContentPage
             await Database.GetEmergencyContactsByUserIdAsync(IngelogdeUser.Id);
     }
 
+    // ---------------- FORM STATE ----------------
+
     private void ResetForm()
     {
         _selectedContact = null;
+        FormTitle.Text = "Nieuw noodcontact";
         NameEntry.Text = string.Empty;
         PhoneEntry.Text = string.Empty;
         DeleteButton.IsVisible = false;
+        ContactsView.SelectedItem = null;
     }
+
+    // ---------------- EVENTS ----------------
 
     private void OnContactSelected(object sender, SelectionChangedEventArgs e)
     {
@@ -45,10 +51,10 @@ public partial class EmergencyHelpPage : ContentPage
         if (_selectedContact == null)
             return;
 
+        FormTitle.Text = "Noodcontact bewerken";
         NameEntry.Text = _selectedContact.Name;
         PhoneEntry.Text = _selectedContact.PhoneNumber;
         DeleteButton.IsVisible = true;
-        ContactsView.SelectedItem = null;
     }
 
     private async void OnSaveClicked(object sender, EventArgs e)
@@ -64,9 +70,9 @@ public partial class EmergencyHelpPage : ContentPage
         {
             _selectedContact = new EmergencyContact
             {
+                UserId = IngelogdeUser.Id,
                 Name = NameEntry.Text.Trim(),
-                PhoneNumber = PhoneEntry.Text.Trim(),
-                UserId = IngelogdeUser.Id
+                PhoneNumber = PhoneEntry.Text.Trim()    
             };
 
             await Database.AddEmergencyContactAsync(_selectedContact);
@@ -98,7 +104,7 @@ public partial class EmergencyHelpPage : ContentPage
         ResetForm();
     }
 
-    private void OnNewClicked(object sender, EventArgs e)
+    private void OnDeselecteren(object sender, EventArgs e)
     {
         ResetForm();
     }

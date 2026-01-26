@@ -26,10 +26,10 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Padding="12" Margin="5">
+                    <Border Padding="12" Margin="5">
                         <Label Text="{Binding Name}"
                            FontSize="18"/>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
