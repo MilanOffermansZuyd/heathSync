@@ -3,12 +3,25 @@ using HealthSync.Models;
 using Microsoft.Maui.Controls;
 using System.Linq;
 using System.Collections.Generic;
+using HealthSync.Services;
+#if ANDROID
+using Android.App;
+using HealthSync.Platforms.Android;
+using Microsoft.Maui.ApplicationModel;
+using AndroidX.Core.Content;
+using AndroidX.Core.App;
+using Android.Content.PM;
+#endif
+
 
 namespace HealthSync.Views;
 
 public partial class LifestylePage : ContentPage
 {
-	private DatabaseOperaties Database;
+    #if ANDROID
+        StepCounterService? _stepCounter;
+    #endif
+    private DatabaseOperaties Database;
     public User IngelogdeUser { get; set; }
 
     // Steps and calories state
@@ -24,16 +37,86 @@ public partial class LifestylePage : ContentPage
 		Database = database;
         IngelogdeUser = ingelogdeUser;
         BindingContext = this;
+
+        // Subscribe to reset events
+        CounterResetService.ResetStepsRequested += OnResetStepsRequested;
+        CounterResetService.ResetKcalRequested += OnResetKcalRequested;
+        CounterResetService.ResetSleepRequested += OnResetSleepRequested;
+
+        #if ANDROID
+                // Use fully-qualified Android application context to avoid ambiguity
+                _stepCounter = new StepCounterService(Android.App.Application.Context);
+                _stepCounter.StepsChanged += steps =>
+                {
+                    // Update using existing helper so UI and calories stay in sync
+                    MainThread.BeginInvokeOnMainThread(() => SetSteps(steps));
+                };
+        #endif
     }
 
-    protected override void OnAppearing()
+    private void OnResetStepsRequested()
+    {
+        // Reset UI steps to zero and instruct service to reset baseline
+        MainThread.BeginInvokeOnMainThread(() => SetSteps(0));
+        #if ANDROID
+        StepCounterService.Instance?.ResetBaseline();
+        #endif
+    }
+
+    private void OnResetKcalRequested()
+    {
+        // Reset calories only (keep steps)
+        currentCalories = 0;
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            var lblCalories = this.FindByName<Label>("LblCalories");
+            if (lblCalories != null) lblCalories.Text = "0 kcal";
+        });
+    }
+
+    private void OnResetSleepRequested()
+    {
+        MainThread.BeginInvokeOnMainThread(() => ResetSleep());
+    }
+
+    private void ResetSleep()
+    {
+        // Clear hypnogram and reset total label
+        var grid = this.FindByName<Grid>("HypnogramGrid");
+        var lblTotal = this.FindByName<Label>("LblSleepTotal");
+        if (grid != null) { grid.Children.Clear(); grid.ColumnDefinitions.Clear(); }
+        if (lblTotal != null) lblTotal.Text = "0h 0m";
+    }
+
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
+        #if ANDROID
+                // Check and request ACTIVITY_RECOGNITION permission on Android (API 29+)
+                try
+                {
+                    var context = Android.App.Application.Context;
+                    if (ContextCompat.CheckSelfPermission(context, Android.Manifest.Permission.ActivityRecognition) != Permission.Granted)
+                    {
+                        var activity = Platform.CurrentActivity;
+                        if (activity != null)
+                        {
+                            ActivityCompat.RequestPermissions(activity, new string[] { Android.Manifest.Permission.ActivityRecognition }, 1001);
+                        }
+                    }
+                    else
+                    {
+                        _stepCounter?.Start();
+                    }
+                }
+                catch { }
 
-        // Hardcoded totdat smartwatch of stappen teller is toegevoegd
+        #endif
+
+        // Ensure UI starts at zero until sensor reports values
         try
         {
-            SetSteps(250);
+            SetSteps(0);
         }
         catch { }
 
@@ -44,6 +127,14 @@ public partial class LifestylePage : ContentPage
         }
         catch { }
     }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        #if ANDROID
+                _stepCounter?.Stop();
+        #endif
+    }
 
     private void SetSteps(int steps)
     {
@@ -52,11 +143,12 @@ public partial class LifestylePage : ContentPage
 
         try
         {
-            var lblSteps = this.FindByName<Label>("LblSteps");
+            // Correct name: StepsLabel (matches XAML)
+            var lblSteps = this.FindByName<Label>("StepsLabel");
             var lblCalories = this.FindByName<Label>("LblCalories");
 
             if (lblSteps != null)
-                lblSteps.Text = currentSteps.ToString();
+                lblSteps.Text = $"Stappen: {currentSteps}";
 
             if (lblCalories != null)
                 lblCalories.Text = $"{currentCalories} kcal";
@@ -64,12 +156,12 @@ public partial class LifestylePage : ContentPage
         catch { }
     }
 
-    
-    private void OnPedometerStepUpdate(int steps)
+    private async void CounterSettings_Clicked(object sender, EventArgs e)
     {
-        // Toekomst beeld voor toevoegen van smartwatch, stappen teller etc.
-        SetSteps(steps);
+        await Navigation.PushAsync(new CountersPage(Database, IngelogdeUser));
     }
+
+   
 
     // Slaap diagram 
     private record SleepSegment(string Stage, int Minutes);
