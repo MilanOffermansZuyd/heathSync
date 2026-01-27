@@ -82,5 +82,15 @@ namespace HealthSync.Platforms.Android
                 _initialStepCount = 0;
             }
         }
+
+        void ISensorEventListener.OnAccuracyChanged(Sensor? sensor, SensorStatus accuracy)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ISensorEventListener.OnSensorChanged(SensorEvent? e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
