@@ -37,7 +37,7 @@
                Keyboard="Telephone"/>
 
             <Button Text="Opslaan"
-                BackgroundColor="Red"
+                BackgroundColor="Blue"
                 TextColor="White"
                 Clicked="OnSaveClicked"/>
 
@@ -47,9 +47,6 @@
                 TextColor="White"
                 IsVisible="False"
                 Clicked="OnDeleteClicked"/>
-
-            <Button Text="Deselecteren"
-                Clicked="OnDeselecteren"/>
 
         </VerticalStackLayout>
     </Grid>

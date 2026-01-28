@@ -103,9 +103,4 @@ public partial class EmergencyHelpPage : ContentPage
         await LoadContactsAsync();
         ResetForm();
     }
-
-    private void OnDeselecteren(object sender, EventArgs e)
-    {
-        ResetForm();
-    }
 }

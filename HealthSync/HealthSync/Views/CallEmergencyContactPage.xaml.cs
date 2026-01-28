@@ -11,6 +11,7 @@ public partial class CallEmergencyContactPage : ContentPage
     private int _countdown = 7;
     private System.Timers.Timer _timer;
     private bool _hasCalled = false;
+    private CancellationTokenSource _countdownCts;
 
     public CallEmergencyContactPage(DatabaseOperaties database, User ingelogdeUser)
     {
@@ -41,24 +42,41 @@ public partial class CallEmergencyContactPage : ContentPage
 
     private void StartCountdown()
     {
+        _countdownCts = new CancellationTokenSource();
+
         _timer = new System.Timers.Timer(1000);
-        _timer.Elapsed += (s, e) =>
-        {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                _countdown--;
-                CountdownLabel.Text = $"Bellen over {_countdown}...";
-
-                if (_countdown <= 0 && !_hasCalled)
-                {
-                    _hasCalled = true;
-                    _timer.Stop();
-                    CallNumber("112");
-                }
-            });
-        };
-
+        _timer.AutoReset = true;
+        _timer.Elapsed += OnTimerElapsed;
         _timer.Start();
+    }
+
+    private void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        if (_countdownCts.IsCancellationRequested)
+            return;
+
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            if (_countdownCts.IsCancellationRequested)
+                return;
+
+            _countdown--;
+            CountdownLabel.Text = $"Bellen over {_countdown}...";
+
+            if (_countdown <= 0 && !_hasCalled)
+            {
+                _hasCalled = true;
+                StopCountdown();
+                CallNumber("112");
+            }
+        });
+    }
+
+    private void StopCountdown()
+    {
+        _timer?.Stop();
+        _timer?.Dispose();
+        _timer = null;
     }
 
     private async Task LoadContactsAsync()
@@ -100,5 +118,17 @@ public partial class CallEmergencyContactPage : ContentPage
         {
             await DisplayAlert("Fout", ex.Message, "OK");
         }
+    }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        _countdownCts?.Cancel();
+        _countdownCts?.Dispose();
+        _countdownCts = null;
+
+        _timer?.Stop();
+        _timer?.Dispose();
+        _timer = null;
     }
 }
