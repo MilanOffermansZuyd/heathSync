@@ -159,6 +159,6 @@ public partial class DashboardPage : ContentPage
 
     private async void Noodhulp_Clicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Noodhulp", "Nog niet geïmplementeerd", "OK");
+        await Navigation.PushAsync(new CallEmergencyContactPage(Database, IngelogdeUser));
     }
 }

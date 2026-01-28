@@ -387,3 +387,6 @@ temp
 # TypeScript source map files (generated artifacts)
 # Note: CSS map files in templates (e.g., bootstrap) are intentionally tracked
 *.js.map
+/HealthSync/HealthSyncWebApi/APIHealthSync.db
+/HealthSync/HealthSyncWebApi/APIHealthSync.db-shm
+/HealthSync/HealthSyncWebApi/APIHealthSync.db-wal
